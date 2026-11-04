@@ -8,7 +8,7 @@
 % F: the force exerted by the spring at end B
 function F = compute_spring_force(k,l0,PA,PB)
     %current length of the spring
-    l = abs(PB - PA);
+    l = norm(PB - PA);
     %unit vector pointing from PA to PB
     e_s = (PB - PA) / l;
     %Force exerted by spring at point B
