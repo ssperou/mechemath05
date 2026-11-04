@@ -1,5 +1,5 @@
 % computes the force exerted by the spring at one of its ends
-% INPUTS:
+%INPUTS:
 % PA: the position of the first end of the spring
 % PB: the position of the second end of the spring
 % k: the stiffness of the spring

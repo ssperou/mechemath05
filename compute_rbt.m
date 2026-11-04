@@ -10,5 +10,5 @@
 %              coordinates of the points in plist_box
 function p_list_world = compute_rbt(x,y,theta,p_list_box)
     rotation = [cos(theta), -sin(theta); sin(theta), cos(theta)];
-    p_list_world = rotation * p_list_box' + [x; y];
+    p_list_world = rotation * p_list_box + [x; y];
 end
