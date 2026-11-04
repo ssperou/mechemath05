@@ -30,6 +30,12 @@ function [XB1, XB2, fun_count] = embedded_RK_step(rate_func_in,t,XA,h,BT_struct)
         fun_count = fun_count + 1;
     end
 
+    dim = size(XA);
+    flip_flag = dim(1) > dim(2);
+    if flip_flag
+        XA = XA';
+    end
+
     % calculate the next X value estimate 1
     XB1 = XA + h*(B(1,:)*K);
     % calculate the next X value estimate 2    

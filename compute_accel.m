@@ -36,7 +36,6 @@ function [ax,ay,atheta] = compute_accel(x,y,theta,box_params)
     F_ext = [0;0]; 
     T_ext = 0;
 
-
     % loop thru each spring, calc sum of forces
     for i = 1:length(l0_list)
         k = k_list(i);

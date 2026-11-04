@@ -31,5 +31,5 @@ function dVdt = box_rate_func(t,V,box_params)
     [ax, ay, atheta] = compute_accel(x, y, theta, box_params);
 
     % output velocity and acceleration as a column vector
-    dVdt = [vx, vy, vtheta, ax, ay, atheta];
+    dVdt = [vx; vy; vtheta; ax; ay; atheta];
 end
