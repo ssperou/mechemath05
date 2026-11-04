@@ -1,7 +1,7 @@
 % simulates a vibrating box
 %INPUTS: None
 %OUTPUTS: None
-function simulate_box(vidflag)
+function simulate_box()
     %define system parameters
     box_params = init_box_params();
 
@@ -30,18 +30,18 @@ function simulate_box(vidflag)
 
     % might move this to a different piece of code
     % taken from kai-xing's & my strandbeest animation code
-    if vidflag
-        % define location and filename where video will be stored
-        mypath1 = 'C:\Users\jshen\OneDrive - Olin College of Engineering\2026-27\MechEMath\mechemath05\';
-        fname='washing_machine';
-        input_fname = [mypath1,fname];
-        
-        %create a videowriter, which will write frames to the animation file
-        writerObj = VideoWriter(input_fname);
-        
-        %must call open before writing any frames
-        open(writerObj);
-    end
+    % if vidflag
+    %     % define location and filename where video will be stored
+    %     mypath1 = 'C:\Users\jshen\OneDrive - Olin College of Engineering\2026-27\MechEMath\mechemath05\';
+    %     fname='washing_machine';
+    %     input_fname = [mypath1,fname];
+    % 
+    %     %create a videowriter, which will write frames to the animation file
+    %     writerObj = VideoWriter(input_fname);
+    % 
+    %     %must call open before writing any frames
+    %     open(writerObj);
+    % end
     
     % initialize the current figure and save as object
     clf
@@ -68,25 +68,25 @@ function simulate_box(vidflag)
     spring_plot_struct = initialize_spring_plot(num_zigs,w);
     axis equal; axis square;
     axis([-3,3,-3,3]);
-    for frames = 1:length(V_list)
-        P1 = V_list(1,frames);
-        P2 = V_list(2,frames);
+    for frames = 1:length(Vlist)
+        P1 = Vlist(1,frames);
+        P2 = Vlist(2,frames);
         update_spring_plot(spring_plot_struct,P1,P2)
         drawnow;
     end
     %%%%%%%%% end
 
-        if vidflag
-            %capture a frame (what is currently plotted)
-            current_frame = getframe(fig1);
-            %write the frame to the video
-            writeVideo(writerObj,current_frame);
-            if t == frames
-                %must call close after all frames are written to save the video
-                close(writerObj);
-                length(xfoot)
-            end
-        end
+        % if vidflag
+        %     %capture a frame (what is currently plotted)
+        %     current_frame = getframe(fig1);
+        %     %write the frame to the video
+        %     writeVideo(writerObj,current_frame);
+        %     if t == frames
+        %         %must call close after all frames are written to save the video
+        %         close(writerObj);
+        %         length(xfoot)
+        %     end
+        % end
 end
 
 

@@ -18,14 +18,18 @@
 % dVdt = [dxdt;dydt;dthetadt;d2xdt2;d2ydt2;d2thetadt2]:
 %        the time derivative of the state vector
 function dVdt = box_rate_func(t,V,box_params)
+    % unpack position values from V
+    x = V(1);
+    y = V(2);
+    theta = V(3);
     % unpack velocity values from V
     vx = V(4);
     vy = V(5);
     vtheta = V(6);
 
     % calculate acceleration
-    [ax, ay, atheta] = compute_accel(vx, vy, vtheta, box_params);
+    [ax, ay, atheta] = compute_accel(x, y, theta, box_params);
 
     % output velocity and acceleration as a column vector
-    dVdt = [vx; vy; vtheta; ax; ay; atheta];
+    dVdt = [vx, vy, vtheta, ax, ay, atheta];
 end

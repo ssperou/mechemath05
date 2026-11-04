@@ -50,7 +50,9 @@ function [ax,ay,atheta] = compute_accel(x,y,theta,box_params)
         F_ext = F_ext + F;
 
         % calc torque and add to sum
-        T_ext = T_ext + cross((PB - [x;y]), F);
+        p_sub = PB - [x;y];
+        T = p_sub(1)*F(2) - p_sub(2)*F(1);
+        T_ext = T_ext + T;
     
     end
     % add gravity to net force
