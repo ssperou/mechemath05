@@ -21,8 +21,8 @@ function simulate_box()
     V0 = [x0;y0;theta0;vx0;vy0;vtheta0];
     href = 0.01;
     [BT_struct,p] = init_BT("Fehlberg");
-    error_desired = 1e-3;
-    growth_limit = 3;
+    error_desired = 1e-7;
+    growth_limit = 1;
 
     % run the integration
     [tlist,Vlist] = explicit_RK_variable_step_integration(func,tspan,V0, ...
@@ -48,18 +48,13 @@ function simulate_box()
     hold off;
     % might move this to a different piece of code
     % taken from kai-xing's & my strandbeest animation code
-    % if vidflag
-    %     % define location and filename where video will be stored
-    %     mypath1 = 'C:\Users\jshen\OneDrive - Olin College of Engineering\2026-27\MechEMath\mechemath05\';
-    %     fname='washing_machine';
-    %     input_fname = [mypath1,fname];
-    % 
-    %     %create a videowriter, which will write frames to the animation file
-    %     writerObj = VideoWriter(input_fname);
-    % 
-    %     %must call open before writing any frames
-    %     open(writerObj);
-    % end
+    mypath1 = 'C:\Users\ccirone\Downloads\';
+    fname='square_animation.avi';
+    input_fname = [mypath1, fname];
+
+    %create a videowriter, which will write frames to the animation file
+    writerObj = VideoWriter(input_fname);
+    open(writerObj); %must call open before writing any frames
     %% 
     
     % initialize the current figure and save as object
@@ -91,6 +86,7 @@ function simulate_box()
     origin = plot(0, 0, 'black');
     axis equal; axis square;
     axis([-10,10,-10,10]);
+    length(Vlist)
     for frames = 1:length(Vlist)
         x = Vlist(1,frames);
         y = Vlist(2,frames);
@@ -109,7 +105,10 @@ function simulate_box()
         set(origin, 'xdata', box_bound(1, :), 'ydata', box_bound(2, :));
 
         drawnow;
+        frame = getframe(fig1);
+        writeVideo(writerObj,frame);
     end
+    close(writerObj)
     %%%%%%%%% end
 
         % if vidflag
