@@ -17,7 +17,7 @@ function box_params = init_box_params()
     % i don't know what LG is. arbitrary spring constant thing?
     % this code has not been touched compared to Orion's example except
     % that i made it a square
-    LW = 10; LH = 1; LG = 3;
+    LW = 2; LH = 2; LG = 5;
 
     % define system parameters based on box characteristics
     m = 1; Ic = (1/12)*(LH^2+LW^2);
@@ -25,19 +25,26 @@ function box_params = init_box_params()
     l0 = 1.5*LG;
 
     % define box mounting points
-    Pbl_box = [-LW;-LH]/2;
-    Pbr_box = [LW;-LH]/2;
-    Ptl_box = [-LW;LH]/2;
-    Ptr_box = [LW;LH]/2;
+    Pbl_box = [-LW;-LH];
+    Pbr_box = [LW;-LH];
+    Ptl_box = [-LW;LH];
+    Ptr_box = [LW;LH];
     boundary_pts = [Pbl_box,Pbr_box,Ptr_box,Ptl_box,Pbl_box];
 
     % define world mounting points
-    Pbl1_world = Pbl_box + [-LG;-LG];
-    Pbl2_world = Pbl_box + [LG;-LG];
-    Pbr1_world = Pbr_box + [0;-l0];
-    Pbr2_world = Pbr_box + [l0;0];
-    P_world = [Pbl1_world,Pbl2_world,Pbr1_world,Pbr2_world];
-    P_box = [Pbl_box,Pbl_box,Pbr_box,Pbr_box];
+    % for low speed but sometimes outside of the world-box:
+    Pbl_world = Pbl_box + [-LG;-LG];
+    Ptl_world = Pbl_box + [LG;-LG];
+    Pbr_world = Pbr_box + [LG;LG];
+    Ptr_world = Pbr_box + [-LG;LG];
+
+    % for high speed but always inside the world-box:
+    Pbl_world = Pbl_box + [-LG;-LG];
+    Pbr_world = Pbr_box + [LG;-LG];
+    Ptl_world = Ptl_box + [-LG;LG];
+    Ptr_world = Ptr_box + [LG;LG];
+    P_world = [Pbl_world,Ptl_world,Pbr_world,Ptr_world];
+    P_box = [Pbl_box,Ptl_box,Pbr_box,Ptr_box];
     
     % save to a struct
     box_params = struct();
