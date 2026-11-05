@@ -2,7 +2,7 @@
 %INPUTS: None
 %OUTPUTS: None
 function simulate_box()
-    %define system parameters
+%define system parameters
     box_params = init_box_params();
 
     % create a wrapper function
@@ -28,6 +28,24 @@ function simulate_box()
     [tlist,Vlist] = explicit_RK_variable_step_integration(func,tspan,V0, ...
                         href,BT_struct,p,error_desired,growth_limit);
 
+    %Plot x and y values
+    figure(1);
+    plot(tlist, Vlist(1, :));
+    hold on;
+    plot(tlist, Vlist(2, :));
+    legend("x", "y", "Interpreter", "Latex");
+    hold off;
+
+    %Plot and animate springs
+    figure(2);
+    nz = 7;
+    w = 0.2;
+    sp1 = initialize_spring_plot(nz, w);
+    hold on;
+    sp2 = initialize_spring_plot(nz, w);
+    sp3 = initialize_spring_plot(nz, w);
+    sp4 = initialize_spring_plot(nz, w);
+    hold off;
     % might move this to a different piece of code
     % taken from kai-xing's & my strandbeest animation code
     % if vidflag
@@ -42,10 +60,11 @@ function simulate_box()
     %     %must call open before writing any frames
     %     open(writerObj);
     % end
+    %% 
     
     % initialize the current figure and save as object
     clf
-    fig1 = figure(1);
+    fig1 = figure(2);
 
     %set up the plotting axis
     hold on;
@@ -66,12 +85,26 @@ function simulate_box()
     w = .1;
     hold on;
     spring_plot_struct = initialize_spring_plot(num_zigs,w);
+    origin = plot(0, 0, 'black');
     axis equal; axis square;
-    axis([-3,3,-3,3]);
+    axis([-10,10,-10,10]);
     for frames = 1:length(Vlist)
-        P1 = Vlist(1,frames);
-        P2 = Vlist(2,frames);
-        update_spring_plot(spring_plot_struct,P1,P2)
+        x = Vlist(1,frames);
+        y = Vlist(2,frames);
+        theta = Vlist(3, frames);
+        P_box = box_params.P_box;
+        P_world = compute_rbt(x, y, theta, P_box);
+        Q_world = box_params.P_world;
+        update_spring_plot(spring_plot_struct,P_world(:, 1), Q_world(:, 1));
+        update_spring_plot(spring_plot_struct,P_world(:, 2), Q_world(:, 2));
+        update_spring_plot(spring_plot_struct,P_world(:, 3), Q_world(:, 3));
+        update_spring_plot(spring_plot_struct,P_world(:, 4), Q_world(:, 4));
+
+        %Draw box
+        bound = box_params.boundary_pts;
+        box_bound = compute_rbt(x, y, theta, bound);
+        set(origin, 'xdata', box_bound(1, :), 'ydata', box_bound(2, :));
+
         drawnow;
     end
     %%%%%%%%% end
