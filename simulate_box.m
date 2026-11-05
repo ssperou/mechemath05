@@ -84,7 +84,10 @@ function simulate_box()
     num_zigs = 5;
     w = .1;
     hold on;
-    spring_plot_struct = initialize_spring_plot(num_zigs,w);
+    sp1 = initialize_spring_plot(num_zigs,w);
+    sp2 = initialize_spring_plot(num_zigs,w);
+    sp3 = initialize_spring_plot(num_zigs,w);
+    sp4 = initialize_spring_plot(num_zigs,w);
     origin = plot(0, 0, 'black');
     axis equal; axis square;
     axis([-10,10,-10,10]);
@@ -95,10 +98,10 @@ function simulate_box()
         P_box = box_params.P_box;
         P_world = compute_rbt(x, y, theta, P_box);
         Q_world = box_params.P_world;
-        update_spring_plot(spring_plot_struct,P_world(:, 1), Q_world(:, 1));
-        update_spring_plot(spring_plot_struct,P_world(:, 2), Q_world(:, 2));
-        update_spring_plot(spring_plot_struct,P_world(:, 3), Q_world(:, 3));
-        update_spring_plot(spring_plot_struct,P_world(:, 4), Q_world(:, 4));
+        update_spring_plot(sp1,P_world(:, 1), Q_world(:, 1));
+        update_spring_plot(sp2,P_world(:, 2), Q_world(:, 2));
+        update_spring_plot(sp3,P_world(:, 3), Q_world(:, 3));
+        update_spring_plot(sp4,P_world(:, 4), Q_world(:, 4));
 
         %Draw box
         bound = box_params.boundary_pts;
