@@ -1,7 +1,12 @@
 % simulates a vibrating box
 %INPUTS: None
 %OUTPUTS: None
-function simulate_box()
+function simulate_box(vidflag)
+    % optional argument that defaults to off
+    % if true or 1, will save video
+    arguments
+        vidflag (1,:) double = 0
+    end
 %define system parameters
     box_params = init_box_params();
 
@@ -48,14 +53,15 @@ function simulate_box()
     hold off;
     % might move this to a different piece of code
     % taken from kai-xing's & my strandbeest animation code
-    mypath1 = 'C:\Users\ccirone\Downloads\';
-    fname='square_animation.avi';
-    input_fname = [mypath1, fname];
-
-    %create a videowriter, which will write frames to the animation file
-    writerObj = VideoWriter(input_fname);
-    open(writerObj); %must call open before writing any frames
-    %% 
+    if vidflag
+        mypath1 = 'C:\Users\ccirone\Downloads\';
+        fname='square_animation.avi';
+        input_fname = [mypath1, fname];
+    
+        %create a videowriter, which will write frames to the animation file
+        writerObj = VideoWriter(input_fname);
+        open(writerObj); %must call open before writing any frames
+    end
     
     % initialize the current figure and save as object
     clf
@@ -105,23 +111,18 @@ function simulate_box()
         set(origin, 'xdata', box_bound(1, :), 'ydata', box_bound(2, :));
 
         drawnow;
-        frame = getframe(fig1);
-        writeVideo(writerObj,frame);
+        if vidflag
+            %capture a frame (what is currently plotted)
+            current_frame = getframe(fig1);
+            %write the frame to the video
+            writeVideo(writerObj,current_frame);
+            if length(Vlist) == frames
+                %must call close after all frames are written to save the video
+                close(writerObj);
+                length(xfoot)
+            end
+        end
     end
-    close(writerObj)
-    %%%%%%%%% end
-
-        % if vidflag
-        %     %capture a frame (what is currently plotted)
-        %     current_frame = getframe(fig1);
-        %     %write the frame to the video
-        %     writeVideo(writerObj,current_frame);
-        %     if t == frames
-        %         %must call close after all frames are written to save the video
-        %         close(writerObj);
-        %         length(xfoot)
-        %     end
-        % end
 end
 
 
