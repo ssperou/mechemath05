@@ -14,14 +14,15 @@
 %                     box frame)
 function box_params = init_box_params()
     % define box characteristics
-    % i don't know what LG is. arbitrary spring constant thing?
-    % this code has not been touched compared to Orion's example except
-    % that i made it a square
-    LW = 2; LH = 2; LG = 5;
+    % i don't know what LG is. arbitrary spring length thing?
+    % this code is largely orion's except a.) springs have been connected
+    % to all corners instead of two, it's a square now, gravity and mass
+    % are non-one
+    LW = 3; LH = 3; LG = 5;
 
     % define system parameters based on box characteristics
-    m = 1; Ic = (1/12)*(LH^2+LW^2);
-    g = 1; k = 20; k_list = [.5*k,.5*k,2*k,5*k];
+    m = 10; Ic = (1/12)*(LH^2+LW^2);
+    g = 9; k = 200; k_list = [.5*k,5*k,5*k,5*k];
     l0 = 1.5*LG;
 
     % define box mounting points

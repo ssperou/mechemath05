@@ -24,17 +24,22 @@ function [XB1, XB2, fun_count] = embedded_RK_step(rate_func_in,t,XA,h,BT_struct)
     K = zeros(length(C), length(XA));
     fun_count = 0;
 
-    % loop through tableau values
-    for i = 1:length(C)
-        K(i,:) = rate_func_in(t+C(i)*h, XA + h*(A(i,:)*K));
-        fun_count = fun_count + 1;
-    end
-
     dim = size(XA);
     flip_flag = dim(1) > dim(2);
     if flip_flag
         XA = XA';
     end
+
+    % loop through tableau values
+    for i = 1:length(C)
+        input =  XA + h*(A(i,:)*K);
+        if flip_flag
+            input = input';
+        end
+        K(i,:) = rate_func_in(t+C(i)*h, input);
+        fun_count = fun_count + 1;
+    end
+
 
     % calculate the next X value estimate 1
     XB1 = XA + h*(B(1,:)*K);

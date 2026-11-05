@@ -70,9 +70,7 @@ function [t_list,X_list,h_avg,fun_count,failure_rate] = explicit_RK_variable_ste
         if t_next > tf
             t_next = tf;
             h = tf-t;
-        end
-        
-        
+        end    
     end
 
     % calculate the average timestep size
