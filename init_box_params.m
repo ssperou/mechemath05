@@ -17,7 +17,7 @@ function box_params = init_box_params()
     % i don't know what LG is. arbitrary spring constant thing?
     % this code has not been touched compared to Orion's example except
     % that i made it a square
-    LW = 10; LH = 10; LG = 3;
+    LW = 10; LH = 1; LG = 3;
 
     % define system parameters based on box characteristics
     m = 1; Ic = (1/12)*(LH^2+LW^2);

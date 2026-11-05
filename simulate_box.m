@@ -11,10 +11,10 @@ function simulate_box()
     % set up box parameters
     x0 = 0;
     y0 = 0;
-    theta0 = 0;
-    vx0 = 1;
-    vy0 = 3;
-    vtheta0 = 0.01;
+    theta0 = pi/6;
+    vx0 = 0;
+    vy0 = 0;
+    vtheta0 = pi/4;
     
     % set up integration parameters
     tspan = [0 10];
