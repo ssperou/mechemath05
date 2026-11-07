@@ -21,7 +21,7 @@ function simulation_xy_plots()
     
     % set up integration parameters:
     %small number used to scale initial perturbation
-    epsilon = 1;
+    epsilon = 0.1;
     V0 = V_eq + epsilon*[x0;y0;theta0;vx0;vy0;vtheta0];
     % time, reference step size, RK method, desired error, growth limit
     tspan = [0 10];
@@ -54,4 +54,9 @@ function simulation_xy_plots()
     set(gca,'TickLabelInterpreter','latex')
     legend("Interpreter", "Latex");
     axis([tspan(1) tspan(2) -0.6 1])
+
+
+    V_eq
+    norm(func_newton(V_eq))
+
 end
