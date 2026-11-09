@@ -13,12 +13,12 @@ function simulate_box(system, vidflag)
     box_params = init_box_params();
     p_box = box_params.P_box;
     p_world = box_params.P_world;
-    x0 = 0;
-    y0 = 0;
+    x0 = 6;
+    y0 = 6;
     theta0 = pi/6;
-    vx0 = 0;
-    vy0 = 0;
-    vtheta0 = pi/4;
+    vx0 = 4;
+    vy0 = 4;
+    vtheta0 = pi;
 
     % create a wrapper function
     func_box = @(t_in,V_in) box_rate_func(t_in,V_in,box_params);
@@ -34,7 +34,7 @@ function simulate_box(system, vidflag)
     epsilon = 0.1;
     V0 = V_eq + epsilon*[x0;y0;theta0;vx0;vy0;vtheta0];
     % time, reference step size, RK method, desired error, growth limit
-    tspan = [0 10];
+    tspan = [0 30];
     href = 0.01;
     [BT_struct,p] = init_BT("Fehlberg");
     error_desired = 1e-7;
@@ -44,17 +44,15 @@ function simulate_box(system, vidflag)
     if system == "Nonlinear" || system == "Both"
         [tlist,V_nonlinear] = explicit_RK_variable_step_integration(func_box,tspan,V0, ...
                         href,BT_struct,p,error_desired,growth_limit);
-    end
-    
-    if system == "Linear" || system == "Both"
+    elseif system == "Linear" || system == "Both"
         J_approx = approximate_jacobian(func_newton, V_eq);
         func_jacobian = @(t_in, V_in) J_approx*(V_in-V_eq);
         [tlist,V_linear] = explicit_RK_variable_step_integration(func_jacobian,tspan,V0, ...
                         href,BT_struct,p,error_desired,growth_limit);
     end
 
-    % simulate the nonlinear vibrating box!
-    % zero damping go brrr
+    % simulate the nonlinear vibrating box
+    % save as video if vidflag true
     if vidflag
         mypath1 = 'C:\Users\ccirone\Downloads\';
         fname='square_animation.avi';
@@ -66,7 +64,7 @@ function simulate_box(system, vidflag)
     end
 
     % initialize the current figure and save as object
-    fig1 = figure(2);
+    fig1 = figure(1);
     clf
 
     %set up plot styling

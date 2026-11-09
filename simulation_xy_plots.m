@@ -2,13 +2,6 @@
 %INPUTS: None
 %OUTPUTS: None
 function simulation_xy_plots()
-  
-    % make 2 sets of plots; 
-    % linear, close to equilib 
-    % linear, far from equilib
-    % nonlinear, close to equilib
-    % far from equilib
-
     % define system parameters
     box_params = init_box_params();
     x0 = 0;
@@ -27,7 +20,7 @@ function simulation_xy_plots()
     V_eq = newton_solver(func_newton,V0);
     
     % loop through magnification value
-    epsilon = [1e-4, 1e-1];
+    epsilon = [1e-4, 1e-2, 1e-1];
     for i = 1:length(epsilon)
         % set up integration parameters:
         % small number used to scale initial perturbation

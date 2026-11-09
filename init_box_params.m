@@ -22,7 +22,7 @@ function box_params = init_box_params()
 
     % define system parameters based on box characteristics
     m = 10; Ic = (1/12)*(LH^2+LW^2);
-    g = 9; k = 200; k_list = [.5*k,5*k,5*k,5*k];
+    g = 9; k = 5; k_list = [.5*k,5*k,5*k,5*k];
     l0 = 1.5*LG;
 
     % define box mounting points
@@ -33,19 +33,17 @@ function box_params = init_box_params()
     boundary_pts = [Pbl_box,Pbr_box,Ptr_box,Ptl_box,Pbl_box];
 
     % define world mounting points
-    % for low speed but sometimes outside of the world-box:
-    Pbl_world = Pbl_box + [-LG;-LG];
-    Ptl_world = Pbl_box + [LG;-LG];
-    Pbr_world = Pbr_box + [LG;LG];
-    Ptr_world = Pbr_box + [-LG;LG];
-
-    % for high speed but always inside the world-box:
     Pbl_world = Pbl_box + [-LG;-LG];
     Pbr_world = Pbr_box + [LG;-LG];
     Ptl_world = Ptl_box + [-LG;LG];
     Ptr_world = Ptr_box + [LG;LG];
+
+    % four springs:
     P_world = [Pbl_world,Ptl_world,Pbr_world,Ptr_world];
     P_box = [Pbl_box,Ptl_box,Pbr_box,Ptr_box];
+
+    % eight springs:
+    % code here
     
     % save to a struct
     box_params = struct();
