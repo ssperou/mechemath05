@@ -87,5 +87,72 @@ function simulation_xy_plots()
         my_legend.Layout.Tile = 'south';
         my_legend.ItemTokenSize(1) = 10;
         set(my_legend,'Interpreter','Latex','FontSize',16,'Orientation', 'Horizontal');
+
+
     end
+
+    % if Modal Analysis
+    A = J_approx;
+    Q = A(4:6, 1:3);
+    [U_mode, omega_n] = eigs(Q);
+
+    epsilon = 1;
+    V0 = V_eq + epsilon.*[U_mode; zeros(3,3)]
+
+    tspan = [0 2];
+
+    [t_nonlinear,V_nonlinear] = explicit_RK_variable_step_integration(func_box,tspan,V0, ...
+                        href,BT_struct,p,error_desired,growth_limit);
+
+    x_modal = V_eq(1) + epsilon * U_mode(1) * cos(omega_n(:,1)*t_nonlinear);
+    y_modal = V_eq(2) + epsilon * U_mode(2) *cos(omega_n(:,2)*t_nonlinear);
+    theta_modal = V_eq(3) + epsilon * U_mode(3) *cos(omega_n(:,3)*t_nonlinear);
+
+     % initialize the subplots for each mode shape
+    figure(i);
+    t = tiledlayout(3,1,'TileSpacing','compact','Padding','compact');
+    title(t,'Position of a Vibrating Box','Interpreter','Latex','FontSize',24);
+    %subtitle(t,sprintf('Distance from Equilibrium: Factor of %s',epsilon(i)), ...
+        %'Interpreter','Latex','FontSize',20)
+
+    % plot the x-values
+    nexttile;
+    hold on;
+    grid on;
+    plot(t_nonlinear, x_modal, '-', 'LineWidth', 2, 'DisplayName', 'Linearized');
+    plot(t_nonlinear, V_nonlinear(1, :), '.', 'LineWidth', 2, 'DisplayName', 'Non-linear');
+    set(gca, 'TickLabelInterpreter', 'Latex', 'FontSize', 14);
+    title('X Position','Interpreter','Latex', 'FontSize',18);
+    xlabel('Time (s)','Interpreter','Latex', 'FontSize',15);
+    ylabel('X (m)','Interpreter','Latex', 'FontSize',15)
+    
+    % plot the y-values
+    nexttile;
+    hold on;
+    grid on;
+    plot(t_linear, y_modal, '-', 'LineWidth', 2, 'DisplayName', 'Linearized');
+    plot(t_nonlinear, V_nonlinear(2, :), '.', 'LineWidth', 2, 'DisplayName', 'Non-linear');
+    set(gca, 'TickLabelInterpreter', 'Latex', 'FontSize', 14);
+    title('Y Position','Interpreter','Latex', 'FontSize',18);
+    xlabel('Time (s)','Interpreter','Latex', 'FontSize',15);
+    ylabel('Y (m)','Interpreter','L', 'FontSize',15)
+    
+    % plot the orientation (theta-values)
+    nexttile;
+    hold on;
+    grid on;
+    plot(t_linear, theta_modal, '-', 'LineWidth', 2, 'DisplayName', 'Linear Appriximation');
+    plot(t_nonlinear, V_nonlinear(3, :), '.', 'LineWidth', 2, 'DisplayName', 'Non-linear Approximation');
+    set(gca, 'TickLabelInterpreter', 'Latex', 'FontSize', 14);
+    title('Orientation $\theta$', 'Interpreter','latex', 'FontSize',18);
+    xlabel('Time (s)',  'Interpreter', 'Latex', 'FontSize', 15);
+    ylabel('$\theta$ (rad)', 'Interpreter', 'Latex', 'FontSize', 15)
+
+    % set legend
+    my_legend = legend();
+    my_legend.Layout.Tile = 'south';
+    my_legend.ItemTokenSize(1) = 10;
+    set(my_legend,'Interpreter','Latex','FontSize',16,'Orientation', 'Horizontal');
+
+
 end
