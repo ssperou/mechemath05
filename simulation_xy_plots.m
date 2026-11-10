@@ -29,7 +29,8 @@ function simulation_xy_plots(modal)
         % loop through eigenvalues of part of the jacobian
         A = approximate_jacobian(func_newton, V_eq);
         Q = A(4:6, 1:3);
-        [U_mode, omega_n] = eigs(Q)
+        [U_mode, omega_n] = eigs(-Q)
+        omega_n = sqrt(omega_n)
         value_list = U_mode;
         epsilon = 1e-6;
     else
