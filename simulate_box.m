@@ -6,7 +6,7 @@ function simulate_box(system, vidflag)
     % optional argument that defaults to off
     % if true or 1, will save video
     arguments
-        system (1,:) string = "Nonlinear"
+        system (1,:) string = "Modal"
         vidflag (1,:) double = 0
     end
     % define system parameters
@@ -44,7 +44,7 @@ function simulate_box(system, vidflag)
     if system == "Nonlinear" || system == "Both"
         [tlist,V_nonlinear] = explicit_RK_variable_step_integration(func_box,tspan,V0, ...
                         href,BT_struct,p,error_desired,growth_limit);
-    elseif system == "Linear" || system == "Both"
+    elseif system == "Linear" || system == "Both" || system == "Modal"
         J_approx = approximate_jacobian(func_newton, V_eq);
         func_jacobian = @(t_in, V_in) J_approx*(V_in-V_eq);
         [tlist,V_linear] = explicit_RK_variable_step_integration(func_jacobian,tspan,V0, ...
@@ -89,6 +89,14 @@ function simulate_box(system, vidflag)
     sp4 = initialize_spring_plot();
     origin = plot(0, 0, 'black');
 
+    %Set up modal stuff
+    Q = J_approx(4:6, 1:3);
+    [UMode, omega_n] = eigs(Q);
+    epsilon = 10e-2;
+    x_modal = V_eq(1) + epsilon * UMode(:, 1) * cos(omega_n(1, 1) * tlist);
+    y_modal = V_eq(2) + epsilon * UMode(:, 2) * cos(omega_n(1, 1) * tlist);
+    theta_modal = V_eq(3) + epsilon * UMode(:, 3) * cos(omega_n(1, 1) * tlist);
+
     for j = 1:length(tlist)
         % initialize parameters
         if system == "Nonlinear"
@@ -99,6 +107,10 @@ function simulate_box(system, vidflag)
             x = V_linear(1,j);
             y = V_linear(2,j);
             theta = V_linear(3, j);
+        elseif system == "Modal"
+            x = x_modal(j);
+            y = y_modal(j);
+            theta = theta_modal(j);
         end
         p_box_reframed = compute_rbt(x, y, theta, p_box);
 
