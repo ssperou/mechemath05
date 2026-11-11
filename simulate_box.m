@@ -92,7 +92,6 @@ function simulate_box(system, vidflag)
     %Set up modal stuff
     Q = J_approx(4:6, 1:3);
     [UMode, omega_n] = eigs(Q);
-    epsilon = 10e-2;
     x_modal = V_eq(1) + epsilon * UMode(:, 1) * cos(omega_n(1, 1) * tlist);
     y_modal = V_eq(2) + epsilon * UMode(:, 2) * cos(omega_n(1, 1) * tlist);
     theta_modal = V_eq(3) + epsilon * UMode(:, 3) * cos(omega_n(1, 1) * tlist);
