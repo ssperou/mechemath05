@@ -96,7 +96,7 @@ function simulation_xy_plots(modal)
         hold on;
         grid on;
         plot(t_linear, V_linear(1, :), '-', 'LineWidth', 2);
-        plot(t_nonlinear, V_nonlinear(1, :), ':', 'LineWidth', 2);
+        plot(t_nonlinear, V_nonlinear(1, :), '--', 'LineWidth', 2);
         set(gca, 'TickLabelInterpreter', 'Latex', 'FontSize', 14);
         title('X Position','Interpreter','Latex', 'FontSize',18);
         xlabel('Time (s)','Interpreter','Latex', 'FontSize',15);
@@ -107,7 +107,7 @@ function simulation_xy_plots(modal)
         hold on;
         grid on;
         plot(t_linear, V_linear(2, :), '-', 'LineWidth', 2);
-        plot(t_nonlinear, V_nonlinear(2, :), ':', 'LineWidth', 2);
+        plot(t_nonlinear, V_nonlinear(2, :), '--', 'LineWidth', 2);
         set(gca, 'TickLabelInterpreter', 'Latex', 'FontSize', 14);
         title('Y Position','Interpreter','Latex', 'FontSize',18);
         xlabel('Time (s)','Interpreter','Latex', 'FontSize',15);
@@ -118,7 +118,7 @@ function simulation_xy_plots(modal)
         hold on;
         grid on;
         plot(t_linear, V_linear(3, :), '-', 'LineWidth', 2, 'DisplayName', label);
-        plot(t_nonlinear, V_nonlinear(3, :), ':', 'LineWidth', 2, 'DisplayName', 'Non-linear Approximation');
+        plot(t_nonlinear, V_nonlinear(3, :), '--', 'LineWidth', 2, 'DisplayName', 'Non-linear Approximation');
         set(gca, 'TickLabelInterpreter', 'Latex', 'FontSize', 14);
         title('Orientation $\theta$', 'Interpreter','latex', 'FontSize',18);
         xlabel('Time (s)',  'Interpreter', 'Latex', 'FontSize', 15);
